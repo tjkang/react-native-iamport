@@ -97,7 +97,7 @@ app_scheme는 IAmPort 모듈에 정의할 것을 입력한다. (아래 Example �
 	  <action android:name="android.intent.action.VIEW" />
 	  <category android:name="android.intent.category.DEFAULT" />
 	  <category android:name="android.intent.category.BROWSABLE" />
-	  <data android:scheme="iamport" /> <-- 파라미터에 사용된 appscheme을 등록여야 합니다.
+	  <data android:scheme="iamport" /> <-- ios 파라미터에 사용된 appscheme을 등록여야 합니다.
   </intent-filter>
 </activity>
 ```
