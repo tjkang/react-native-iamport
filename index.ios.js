@@ -13,8 +13,15 @@ export default class IAmPort extends Component {
   }
 
   getRequestContent() {
-    let params = this.props.params;
-    const merchant_uid = params.merchant_uid || ('merchant_' + new Date().getTime());
+    const merchant_uid = this.props.params.merchant_uid || ('merchant_' + new Date().getTime());
+    const m_redirect_url = this.props.params.m_redirect_url || `${this.props.params.app_scheme}://success`;
+
+    const params = {
+      ...this.props.params,
+      merchant_uid,
+      m_redirect_url,
+    };
+
     let HTML = `
     <!DOCTYPE html>
     <html>
@@ -33,7 +40,7 @@ export default class IAmPort extends Component {
             pg : '${params.pg}',
             pay_method : '${params.pay_method}',
             merchant_uid : '${merchant_uid}',
-            m_redirect_url : '${params.app_scheme}://success', // '${params.m_redirect_url}',
+            m_redirect_url : '${params.m_redirect_url}',
             niceMobileV2 : '${params.niceMobileV2 || false}',
             app_scheme : '${params.app_scheme}',
             name : '${params.name}',

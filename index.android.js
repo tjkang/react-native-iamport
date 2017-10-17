@@ -44,14 +44,24 @@ class IAmPort extends Component {
     //   this.props.onPaymentResultReceive(e);
     // }
 
+    if (!(url.includes('imp_uid') || url.includes('merchant_uid'))) {
+      url = e.imp_uid;
+    }
+    if (!(url.includes('imp_uid') || url.includes('merchant_uid'))) {
+      url = e.merchant_uid;
+    }
+
     var imp_uid = this.getParameterByName("imp_uid", url),
       merchant_uid = this.getParameterByName("merchant_uid", url),
       error_msg = this.getParameterByName("error_msg", url),
       result = "";
 
-    if (url.includes('success=false') || error_msg) { // 취소 버튼을 눌렀거나 결제 실패시
+      // console.log('url', url);
+      // console.log(imp_uid, merchant_uid, error_msg);
+
+    if (url.includes('imp_success=false') || error_msg) { // 취소 버튼을 눌렀거나 결제 실패시
       result = "failed"
-    } else if (url.includes('success=true') || (url.includes('imp_uid') && url.includes('merchant_uid'))) {
+    } else if (url.includes('imp_success=true') || (url.includes('imp_uid') && url.includes('merchant_uid'))) {
       result = "success";
     } else if (url.includes('payments/vbank')) {
       result = "vbank";
@@ -66,8 +76,15 @@ class IAmPort extends Component {
 
   getRequestContent() {
 
-    let params = this.props.params;
-    const merchant_uid = params.merchant_uid || ('merchant_' + new Date().getTime());
+    const merchant_uid = this.props.params.merchant_uid || ('merchant_' + new Date().getTime());
+    const m_redirect_url = this.props.params.m_redirect_url || `${this.props.params.app_scheme}://success`;
+
+    const params = {
+      ...this.props.params,
+      merchant_uid,
+      m_redirect_url,
+    };
+
     let HTML = `
     <!DOCTYPE html>
     <html>
